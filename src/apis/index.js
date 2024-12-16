@@ -1,8 +1,4 @@
-import { BACKEND_BASE_URL } from "./constants";
-
-export const fetchPosts = async () => {
-  const url = `${BACKEND_BASE_URL}/posts`;
-
+export const fetchData = async (url) => {
   const response = await fetch(url, {
     method: "GET",
   });

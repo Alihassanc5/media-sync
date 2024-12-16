@@ -1,14 +1,17 @@
 import React, { useEffect, useState } from "react";
-import { fetchPosts } from "../apis";
 import PostCard from "./PostCard";
+import { fetchData } from "../apis";
+import { BACKEND_BASE_URL } from "../apis/constants";
 
 const PostList = () => {
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
+  
+  const url = `${BACKEND_BASE_URL}/posts`;
 
   useEffect(() => {
-    fetchPosts()
+    fetchData(url)
       .then((posts) => {
         setData(posts);
         setLoading(false);
