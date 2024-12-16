@@ -10,7 +10,7 @@ function App() {
           <Header />
         </div>
       </div>
-      
+
       <div className="row">
         <div className="col">
           <PostList />

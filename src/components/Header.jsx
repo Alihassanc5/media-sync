@@ -34,8 +34,7 @@ const Header = () => {
               type="search"
               placeholder="Search"
               aria-label="Search"
-            >
-            </input>
+            ></input>
             <button className="btn btn-outline-success" type="submit">
               Search
             </button>
