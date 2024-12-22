@@ -7,8 +7,8 @@ const PostList = () => {
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
-  
-  const url = `${BACKEND_BASE_URL}/posts`;
+
+  const url = `${BACKEND_BASE_URL}/posts?userId=1`;
 
   useEffect(() => {
     fetchData(url)
@@ -23,7 +23,12 @@ const PostList = () => {
   }, []);
 
   // Render based on state
-  if (loading) return <div>Loading...</div>;
+  if (loading)
+    return (
+      <div className="spinner-border text-primary" role="status">
+        <span className="visually-hidden">Loading...</span>
+      </div>
+    );
   if (error) return <div>{error}</div>;
   if (data.length === 0) return <div>No posts</div>;
 
