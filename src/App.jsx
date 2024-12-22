@@ -1,35 +1,43 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React, { useState } from "react";
+import PostList from "./components/PostList";
+import Header from "./components/Header";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [selectedItem, setSelectedItem] = useState("Home");
+
+  const handleSelect = (item) => {
+    setSelectedItem(item);
+  };
+
+  const renderContent = () => {
+    switch (selectedItem) {
+      case "Posts":
+        return <PostList />;
+      default:
+        return (
+          <div>
+            <h2>Welcome to My App</h2>
+            <p>
+              This application allows you to view Posts and Albums. Use the
+              navigation bar to switch between different sections.
+            </p>
+          </div>
+        );
+    }
+  };
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <div className="container my-4">
+      <div className="row mb-4">
+        <div className="col">
+          <Header selectedItem={selectedItem} onSelect={handleSelect} />
+        </div>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
+      <div className="row">
+        <div className="col">{renderContent()}</div>
       </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    </div>
+  );
 }
 
-export default App
+export default App;
