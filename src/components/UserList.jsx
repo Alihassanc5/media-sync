@@ -1,18 +1,16 @@
-import React, { useEffect, useState } from "react";
-import PostCard from "./PostCard";
+import React, { useContext, useEffect, useState } from "react";
 import { fetchData } from "../apis";
 import { BACKEND_BASE_URL } from "../apis/constants";
-import { useContext } from "react";
+import UserCard from "./UserCard";
 import { UserContext } from "../Contexts";
 
-const PostList = () => {
+const UserList = () => {
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
+  const {selectedUser, setSelectedUser} = useContext(UserContext)
 
-  const { selectedUser } = useContext(UserContext);
-
-  const url = `${BACKEND_BASE_URL}/posts?userId=${selectedUser}`;
+  const url = `${BACKEND_BASE_URL}/users`;
 
   useEffect(() => {
     fetchData(url)
@@ -21,10 +19,10 @@ const PostList = () => {
         setLoading(false);
       })
       .catch((err) => {
-        setError("Failed to fetch posts");
+        setError("Failed to fetch users");
         setLoading(false);
       });
-  }, [selectedUser]);
+  }, []);
 
   // Render based on state
   if (loading)
@@ -34,17 +32,21 @@ const PostList = () => {
       </div>
     );
   if (error) return <div>{error}</div>;
-  if (data.length === 0) return <div>No posts</div>;
+  if (data.length === 0) return <div>No Users</div>;
 
   return (
     <div className="row">
-      {data.map((post) => (
-        <div className="col-md-4" key={post.id}>
-          <PostCard title={post.title}>{post.body}</PostCard>
+      {data.map((user) => (
+        <div className="col-md-4" key={user.id}>
+          <UserCard
+            {...user}
+            isSelected={user.id === selectedUser}
+            onSelect={() => setSelectedUser(user.id)}
+          />
         </div>
       ))}
     </div>
   );
 };
 
-export default PostList;
+export default UserList;

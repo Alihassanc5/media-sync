@@ -1,9 +1,12 @@
 import React, { useState } from "react";
 import PostList from "./components/PostList";
 import Header from "./components/Header";
+import UserList from "./components/UserList";
+import { UserContext } from "./Contexts";
 
 function App() {
-  const [selectedItem, setSelectedItem] = useState("Home");
+  const [selectedItem, setSelectedItem] = useState("Users");
+  const [selectedUser, setSelectedUser] = useState(null);
 
   const handleSelect = (item) => {
     setSelectedItem(item);
@@ -14,29 +17,23 @@ function App() {
       case "Posts":
         return <PostList />;
       default:
-        return (
-          <div>
-            <h2>Welcome to My App</h2>
-            <p>
-              This application allows you to view Posts and Albums. Use the
-              navigation bar to switch between different sections.
-            </p>
-          </div>
-        );
+        return <UserList />;
     }
   };
 
   return (
-    <div className="container my-4">
-      <div className="row mb-4">
-        <div className="col">
-          <Header selectedItem={selectedItem} onSelect={handleSelect} />
+    <UserContext.Provider value={{ selectedUser, setSelectedUser }}>
+      <div className="container my-4">
+        <div className="row mb-4">
+          <div className="col">
+            <Header selectedItem={selectedItem} onSelect={handleSelect} />
+          </div>
+        </div>
+        <div className="row">
+          <div className="col">{renderContent()}</div>
         </div>
       </div>
-      <div className="row">
-        <div className="col">{renderContent()}</div>
-      </div>
-    </div>
+    </UserContext.Provider>
   );
 }
 
